@@ -178,3 +178,4 @@ dfs_list([H|T], Visited, Count) :-
 %linked('Archery','Agriculture').
 %linked('Archery','Engineering').
 %under_tree_count('Physics', Count).
+%under_tree_count('Metal Casting', Count).
