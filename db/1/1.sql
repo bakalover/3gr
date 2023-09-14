@@ -151,6 +151,19 @@ VALUES (
         TRUE
     );
 
+INSERT INTO galaxy_coord(
+        galaxy_disk_codename,
+        arm_codename,
+        dwarf_codename,
+        planet_codename
+    )
+VALUES(
+        sha224('Milky way')::bytea,
+        sha256('Left arm')::bytea,
+        sha224('L-1')::bytea,
+        sha224('Calisto')::bytea
+    );
+
 INSERT INTO conjunction(dwarf_codename, planet_codename)
 VALUES (sha224('L-1')::bytea, sha224('Calisto')::bytea);
 
@@ -185,6 +198,9 @@ FROM dwarf;
 
 SELECT *
 FROM planet;
+
+SELECT *
+FROM galaxy_coord;
 
 SELECT *
 FROM conjunction;
