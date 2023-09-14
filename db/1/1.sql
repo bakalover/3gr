@@ -1,7 +1,7 @@
 CREATE TABLE galaxy_disk(
     codename bytea PRIMARY KEY,
     diam double precision CHECK (diam > 0),
-    arm_number bigint CHECK (arm_number >= 1) -- human_name varchar(100),
+    arm_number bigint CHECK (arm_number >= 1)
 );
 
 CREATE TABLE arm(
@@ -14,7 +14,7 @@ CREATE TABLE dwarf(
     codename bytea PRIMARY KEY,
     arm_codename bytea REFERENCES arm(codename) ON DELETE CASCADE,
     satellite_number int NOT NULL,
-    temperature numeric(2, 2) NOT NULL,
+    temperature real NOT NULL,
     CHECK (
         satellite_number >= 1
         AND temperature >= -273
@@ -41,6 +41,16 @@ CREATE TABLE planet(
 
 CREATE TYPE rgb AS (r int, g int, b int);
 
+-- CREATE domain rgb_domain AS rgb CHECK (
+--     red >= 0
+--     AND red <= 255
+-- ) CHECK (
+--     g >= 0
+--     AND g <= 255
+-- ) CHECK (
+--     b >= 0
+--     AND b <= 255
+-- );
 CREATE TABLE horizon(
     color rgb,
     brightness int CHECK(
@@ -79,6 +89,112 @@ CREATE TABLE galaxy_coord(
     planet_codename bytea PRIMARY KEY REFERENCES planet(codename) ON DELETE CASCADE
 );
 
+INSERT INTO galaxy_disk (codename, diam, arm_number)
+VALUES (sha224('Milky way')::bytea, 10, 2);
+
+INSERT INTO arm (codename, galaxy_disk_codename, star_number)
+VALUES (
+        sha256('Right arm')::bytea,
+        sha224('Milky way')::bytea,
+        2
+    );
+
+INSERT INTO arm (codename, galaxy_disk_codename, star_number)
+VALUES (
+        sha256('Left arm')::bytea,
+        sha224('Milky way')::bytea,
+        1
+    );
+
+INSERT INTO dwarf(
+        codename,
+        arm_codename,
+        satellite_number,
+        temperature
+    )
+VALUES (
+        sha224('R-1')::bytea,
+        sha256('Right arm')::bytea,
+        3,
+        -100.0
+    );
+
+INSERT INTO dwarf(
+        codename,
+        arm_codename,
+        satellite_number,
+        temperature
+    )
+VALUES (
+        sha224('R-2')::bytea,
+        sha256('Right arm')::bytea,
+        4,
+        -100.0
+    );
+
+INSERT INTO dwarf(
+        codename,
+        arm_codename,
+        satellite_number,
+        temperature
+    )
+VALUES (
+        sha224('L-1')::bytea,
+        sha256('Left arm')::bytea,
+        5,
+        -10.0
+    );
+
+INSERT INTO planet(codename, inhabitant)
+VALUES (
+        sha224('Calisto')::bytea,
+        TRUE
+    );
+
+INSERT INTO conjunction(dwarf_codename, planet_codename)
+VALUES (sha224('L-1')::bytea, sha224('Calisto')::bytea);
+
+INSERT INTO conjunction(dwarf_codename, planet_codename)
+VALUES (sha224('R-1')::bytea, sha224('Calisto')::bytea);
+
+INSERT INTO particle (
+        id,
+        dwarf_codename,
+        density,
+        volume
+    )
+VALUES (
+        nextval('particle_id'),
+        sha224('L-1')::bytea,
+        1000,
+        4567
+    );
+
+INSERT INTO horizon (color, brightness)
+VALUES (ROW(100, 100, 100), 55);
+
+-- Check all
+SELECT *
+FROM galaxy_disk;
+
+SELECT *
+FROM arm;
+
+SELECT *
+FROM dwarf;
+
+SELECT *
+FROM planet;
+
+SELECT *
+FROM conjunction;
+
+SELECT *
+FROM particle;
+
+SELECT *
+FROM horizon;
+
 DROP TABLE galaxy_disk CASCADE;
 
 DROP TABLE arm CASCADE;
@@ -101,4 +217,5 @@ DROP TABLE conjunction CASCADE;
 
 DROP TABLE galaxy_coord CASCADE;
 
+-- DROP TYPE rgb_domain;
 DROP TYPE rgb;
