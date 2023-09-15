@@ -89,6 +89,7 @@ CREATE TABLE galaxy_coord(
     planet_codename bytea PRIMARY KEY REFERENCES planet(codename) ON DELETE CASCADE
 );
 
+-- ///////////////////////////// Tests
 INSERT INTO galaxy_disk (codename, diam, arm_number)
 VALUES (sha224('Milky way')::bytea, 10, 2);
 
@@ -183,10 +184,48 @@ VALUES (
         4567
     );
 
+INSERT INTO particle (
+        id,
+        dwarf_codename,
+        density,
+        volume
+    )
+VALUES (
+        nextval('particle_id'),
+        sha224('L-1')::bytea,
+        500,
+        123
+    );
+
 INSERT INTO horizon (color, brightness)
 VALUES (ROW(100, 100, 100), 55);
 
--- Check all
+INSERT INTO horizon (color, brightness)
+VALUES (ROW(200, 100, 100), 60);
+
+INSERT INTO color_factor(dwarf_codename, horizon_color)
+VALUES(sha224('L-1')::bytea, ROW(200, 100, 100));
+
+INSERT INTO transition(
+        horizon_color_prev,
+        horizon_color_next,
+        dwarf_codename
+    )
+VALUES (
+        (
+            SELECT color
+            FROM horizon
+            WHERE brightness = 55::int
+        ),
+        (
+            SELECT color
+            FROM horizon
+            WHERE brightness = 60::int
+        ),
+        sha224('L-1')::bytea
+    );
+
+-- ////////////////////////////// Check all
 SELECT *
 FROM galaxy_disk;
 
@@ -211,6 +250,13 @@ FROM particle;
 SELECT *
 FROM horizon;
 
+SELECT *
+FROM color_factor;
+
+SELECT *
+FROM transition;
+
+-- ////////////////////////////// End Tests
 DROP TABLE galaxy_disk CASCADE;
 
 DROP TABLE arm CASCADE;
