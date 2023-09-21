@@ -120,7 +120,7 @@ leads_to('Guilds','Chivalry').
 
 tech('Chivalry').
 in_era('Chivalry','Medieval').
-requires('Guilds').
+requires('Chivarly','Guilds').
 
 tech('Machinery').
 in_era('Machinery','Medieval').
