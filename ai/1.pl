@@ -158,6 +158,8 @@ requires('Metallurgy','Printing Press').
 same_era(X,Y) :- in_era(X,P), in_era(Y,Q), P == Q.
 to(From,To) :- leads_to(From,To), requires(To,From).
 linked(X,Y) :- to(X,Y) ; (leads_to(Y,X), requires(X,Y)).
+hop_2(Node, Child, Grand):- to(Node, Child), to(Child, Grand), \+ to(Node, Grand).
+same_era_grands(Node, Grand):- same_era(Node,Grand), hop_2(Node, _, Grand).
 under_tree_count(Start, Count) :- dfs(Start, [], Count).
 
 dfs(Node, Visited, Count) :-
