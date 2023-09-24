@@ -1,0 +1,3 @@
+requires some (in_era value Renaissance)
+requires some (requires value Archery)
+requires some (requires value Archery) and in_era value Medieval
