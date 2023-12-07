@@ -116,6 +116,9 @@ fn main() {
     load_kb_from_file(&mut kb, "./base.pl");
 
     loop {
+        println!("\n==============================================================");
+        println!("Введите запрос: ");
+
         let raw_query = aqcuire_raw_query();
         let token_opts = match parse_tokens(&raw_query) {
             None => {
@@ -140,6 +143,11 @@ fn main() {
         println!(".");
         std::thread::sleep(Duration::from_secs(1));
 
+        if techs_with_diff.len() == 0 {
+            println!("Нет рекомендаций по вашим вкусам :(");
+            continue;
+        }
+
         let mut ans = String::from("Вам подойдут следующие технологии для изучения: ");
         techs_with_diff
             .iter()
@@ -150,9 +158,51 @@ fn main() {
             .fold((), |_, _| {});
         println!("{}", ans);
 
-        println!()
-    }
+        println!("Предлагаем вам изучить: {}", techs_with_diff[0]);
 
-    // люблю древние вещи, хотел бы заниматься чем-то сложным
-    // люблю современное, хотел бы заниматься чем-то невероятно сложным
+        let from = get_from(techs_with_diff[0].to_owned(), &kb);
+        match from {
+            Some(from) => println!("Для изучения вам понадобиться технология: {}", from),
+            None => (),
+        }
+        let to = get_to(techs_with_diff[0].to_owned(), &kb);
+        match to {
+            Some(to) => println!("Вам откроется следующая технология: {}", to),
+            None => (),
+        }
+
+        fn get_to(node: String, kb: &HashMap<String, Vec<Rule>>) -> Option<String> {
+            let leads_to = atom!("leads_to");
+            let node = atom!(node.as_str());
+            let ans = logic_var!("Ans");
+            let query = query!(leads_to, node, ans);
+            let binding = solve(make_base_node(Rc::clone(&query), kb));
+            let ans = binding
+                .split(" = ")
+                .collect::<Vec<_>>();
+            if ans.len() != 2 {
+                return None;
+            }
+            Some(ans[1].to_owned())
+        }
+
+        fn get_from(node: String, kb: &HashMap<String, Vec<Rule>>) -> Option<String> {
+            let requires = atom!("requires");
+            let node = atom!(node.as_str());
+            let ans = logic_var!("Ans");
+            let query = query!(requires, node, ans);
+            let binding = solve(make_base_node(Rc::clone(&query), kb));
+            let ans = binding
+                .split(" = ")
+                .collect::<Vec<_>>();
+            if ans.len() != 2 {
+                return None;
+            }
+            Some(ans[1].to_owned())
+        }
+
+        // люблю древние вещи, хотел бы заниматься чем-то сложным
+        // люблю современное, хотел бы заниматься чем-то невероятно сложным
+        // люблю старьё, хотел бы заниматься чем-то простым
+    }
 }
