@@ -1,3 +1,4 @@
+DROP INDEX student_id_index;
 DROP FUNCTION complete_lesson;
 DROP TRIGGER check_payment ON Enrollment;
 DROP TRIGGER course_complete_check ON Feedback;

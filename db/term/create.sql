@@ -162,3 +162,6 @@ where course_id = course
 END;
 $$ LANGUAGE plpgsql;
 -- Just functions
+-- Index
+CREATE INDEX student_id_index ON Student USING HASH (student_id);
+-- Index
