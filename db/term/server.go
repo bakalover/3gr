@@ -21,12 +21,18 @@ func main() {
 
 	http.HandleFunc("/api/register", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
-			users.AddNewUser(w, r, db)
+			users.Register(w, r, db)
 		}
 	})
 
-	fs := http.FileServer(http.Dir("static/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.HandleFunc("/api/login", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			users.Login(w, r, db)
+		}
+	})
+
+	// fs := http.FileServer(http.Dir("static/"))
+	// http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.ListenAndServe(":8080", nil)
 }
