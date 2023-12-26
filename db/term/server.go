@@ -1,35 +1,42 @@
 package main
 
 import (
+	"context"
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"os"
+	"os/signal"
 	"server/forum"
 	"server/users"
+	"syscall"
 
 	_ "github.com/lib/pq"
 )
 
-//	func ExecuteScript(db *pgxpool.Pool, scriptName string) {
-//		sqlFile, err := os.ReadFile(fmt.Sprintf("./sql/%s.sql", scriptName))
-//		if err != nil {
-//			panic(err)
-//		}
-//		db.Exec(context.Background(), string(sqlFile))
-//	}
+func ExecuteScript(db *sql.DB, scriptName string) {
+	sqlFile, err := os.ReadFile(fmt.Sprintf("./sql/%s.sql", scriptName))
+	if err != nil {
+		panic(err)
+	}
+	db.Exec(string(sqlFile))
+}
 func main() {
 
 	// Bind 9999 <-> 5432
 	// db, err := sql.Open("postgres://username:secret@localhost:9999/studs")
-	// ctx, cancel := context.WithCancel(context.Background())
-	// defer cancel()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	db, err := sql.Open("postgres", "postgres://bakalover:bakalover@localhost:5432/mytest")
+
 	if err != nil {
 		log.Println(err)
 	}
 	mux := http.NewServeMux()
-	// ExecuteScript(db, "create")
+	ExecuteScript(db, "create")
 
 	mux.HandleFunc("/api/register", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
@@ -104,25 +111,25 @@ func main() {
 	})
 
 	server := &http.Server{Addr: ":9999", Handler: mux}
-	log.Println(server.ListenAndServe())
-	// Separate goroutine for graceful shutdown
-	// go func() {
-	// 	err := server.ListenAndServe()
-	// 	log.Println(err)
-	// }()
 
-	// c := make(chan os.Signal, 1)
-	// signal.Notify(c, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
-	// <-c
-	// // Shutdown the server
-	// if err := server.Shutdown(ctx); err != nil {
-	// 	log.Printf("Server shutdown: %s", err)
-	// }
+	// Separate goroutine for graceful shutdown
+	go func() {
+		err := server.ListenAndServe()
+		log.Println(err)
+	}()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+	<-c
+	// Shutdown the server
+	if err := server.Shutdown(ctx); err != nil {
+		log.Printf("Server shutdown: %s", err)
+	}
 
 	// fs := http.FileServer(http.Dir("static/"))
 	// http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	// ExecuteScript(db, "delete")
-	// db.Close()
-	// log.Println("Goodbye!")
+	ExecuteScript(db, "delete")
+	db.Close()
+	log.Println("Goodbye!")
 }
