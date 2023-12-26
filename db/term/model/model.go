@@ -31,17 +31,17 @@ type Lesson struct {
 }
 
 type Quiz struct {
-	quiz_if uint32
-	descript string
+	quiz_if   uint32
+	descript  string
 	timeslice uint16
 	lesson_id uint32
 }
 
-type Card struct{
-	card_id uint32
+type Card struct {
+	card_id  uint32
 	question string
-	answers [4]string
-	ans uint8
+	answers  [4]string
+	ans      uint8
 	quiz_id  uint32
 }
 
@@ -51,63 +51,63 @@ type User struct {
 	is_admin bool
 }
 
-type Instructor struct{
+type Instructor struct {
 	instructor_id uint32
-	full_name string
-	bio string
-	photo string
-	username string
-	course_id uint32
+	full_name     string
+	bio           string
+	photo         string
+	username      string
+	course_id     uint32
 }
 
-type Group struct{
-	group_id uint32
+type Group struct {
+	group_id     uint32
 	group_number uint8
-	faculcy string
+	faculcy      string
 }
 
-type Student struct{
+type Student struct {
 	student_id uint32
-	full_name string
-	photo string
-	group_id uint32
-	usename string
+	full_name  string
+	photo      string
+	group_id   uint32
+	usename    string
 }
 
-type Topic struct{
-	topic_id uint32
-	post_count uint8
-	descript string
+type Topic struct {
+	TopicName string
+	PostCount uint8
+	Descript  string
 }
 
-type Post struct{
-	post_id uint32
-	content string
-	username string
-	topic_id uint32
+type Post struct {
+	PostId    uint32
+	Content   string
+	Username  string
+	TopicName string
 }
 
-type Payment struct{
-	student_id uint32
-	course_id uint32
-	amount uint32
+type Payment struct {
+	student_id   uint32
+	course_id    uint32
+	amount       uint32
 	payment_date pgtype.Time
 }
 
-type Enrollment struct{
-	student_id uint32
-	course_id uint32
+type Enrollment struct {
+	student_id   uint32
+	course_id    uint32
 	enrollment_d pgtype.Date
 }
 
-type Feedback struct{
-	student_id uint32
-	course_id uint32
+type Feedback struct {
+	student_id   uint32
+	course_id    uint32
 	feedback_val string
 }
 
-type Progress struct{
-	student_id uint32
-	course_id uint32
+type Progress struct {
+	student_id   uint32
+	course_id    uint32
 	progress_val uint8
 }

@@ -16,7 +16,6 @@ CREATE TABLE courses(
     end_d DATE,
     lang_level varchar(2) REFERENCES langs(lang_level) ON DELETE CASCADE
 );
-
 CREATE TABLE lessons(
     lesson_id SERIAL PRIMARY KEY,
     title varchar(30),
@@ -30,7 +29,6 @@ CREATE TABLE quizzes(
     time_slice SMALLINT NOT NULL CHECK (time_slice >= 60),
     lesson_id INTEGER REFERENCES lessons(lesson_id) ON DELETE CASCADE
 );
-
 CREATE TABLE cards(
     card_id SERIAL PRIMARY KEY,
     question TEXT NOT NULL,
@@ -66,7 +64,7 @@ CREATE TABLE students(
     username varchar(20) REFERENCES users(username) ON DELETE CASCADE
 );
 CREATE TABLE topics(
-    topic_id SERIAL PRIMARY KEY,
+    topic_name TEXT PRIMARY KEY,
     post_count SMALLINT CHECK(post_count >= 0),
     descript TEXT
 );
@@ -74,7 +72,7 @@ CREATE TABLE posts(
     post_id SERIAL PRIMARY KEY,
     content text NOT NULL,
     username varchar(20) REFERENCES users(username) ON DELETE CASCADE,
-    topic_id INTEGER REFERENCES topics(topic_id) ON DELETE CASCADE
+    topic_name TEXT REFERENCES topics(topic_name) ON DELETE CASCADE
 );
 CREATE TABLE payments(
     student_id INTEGER REFERENCES students(student_id) ON DELETE CASCADE,
