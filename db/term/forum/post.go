@@ -1,17 +1,15 @@
 package forum
 
 import (
-	"context"
+	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
 	"server/model"
 	"server/users"
-
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func AddPost(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic string, username string, content string) {
+func AddPost(w http.ResponseWriter, r *http.Request, db *sql.DB, topic string, username string, content string) {
 	existTopic, err := CheckExistense(db, topic)
 	if err != nil {
 		log.Println(err.Error())
@@ -26,13 +24,13 @@ func AddPost(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic str
 		return
 	}
 	if existTopic && existUser {
-		db.QueryRow(context.Background(), "INSERT INTO posts(content, username, topic_name) VALUES($1,$2,$3)",
+		db.QueryRow("INSERT INTO posts(content, username, topic_name) VALUES($1,$2,$3)",
 			content,
 			username,
 			topic,
 		)
 
-		db.QueryRow(context.Background(), "UPDATE topics SET post_count = post_count + 1 WHERE topic_name = $1",
+		db.QueryRow("UPDATE topics SET post_count = post_count + 1 WHERE topic_name = $1",
 			topic,
 		)
 
@@ -42,7 +40,7 @@ func AddPost(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic str
 
 }
 
-func GetPosts(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic string, username string) {
+func GetPosts(w http.ResponseWriter, r *http.Request, db *sql.DB, topic string, username string) {
 	exist, err := CheckExistense(db, topic)
 	if err != nil {
 		log.Println(err)
@@ -51,7 +49,7 @@ func GetPosts(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic st
 	}
 
 	if exist {
-		rows, err := db.Query(context.Background(), "SELECT * FROM posts WHERE topic_name = $1 AND username = $2",
+		rows, err := db.Query("SELECT * FROM posts WHERE topic_name = $1 AND username = $2",
 			topic,
 			username,
 		)
@@ -86,8 +84,8 @@ func GetPosts(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic st
 
 }
 
-func GetAllPosts(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool) {
-	rows, err := db.Query(context.Background(), "SELECT * FROM posts")
+func GetAllPosts(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	rows, err := db.Query("SELECT * FROM posts")
 
 	if err != nil {
 		log.Println(err)

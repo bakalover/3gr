@@ -1,13 +1,14 @@
 package main
 
 import (
-	"context"
+	"database/sql"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"server/forum"
 	"server/users"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/lib/pq"
 )
 
 //	func ExecuteScript(db *pgxpool.Pool, scriptName string) {
@@ -20,12 +21,14 @@ import (
 func main() {
 
 	// Bind 9999 <-> 5432
-	// db, err := pgxpool.New(context.Background(), "postgres://username:secret@localhost:9999/studs")
+	// db, err := sql.Open("postgres://username:secret@localhost:9999/studs")
 	// ctx, cancel := context.WithCancel(context.Background())
 	// defer cancel()
-	db, _ := pgxpool.New(context.Background(), "postgres://bakalover:bakalover@localhost:5432/mytest")
+	db, err := sql.Open("postgres", "postgres://bakalover:bakalover@localhost:5432/mytest")
+	if err != nil {
+		log.Println(err)
+	}
 	mux := http.NewServeMux()
-
 	// ExecuteScript(db, "create")
 
 	mux.HandleFunc("/api/register", func(w http.ResponseWriter, r *http.Request) {
@@ -101,9 +104,7 @@ func main() {
 	})
 
 	server := &http.Server{Addr: ":9999", Handler: mux}
-
-	server.ListenAndServe()
-
+	log.Println(server.ListenAndServe())
 	// Separate goroutine for graceful shutdown
 	// go func() {
 	// 	err := server.ListenAndServe()

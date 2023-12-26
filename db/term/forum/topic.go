@@ -1,21 +1,19 @@
 package forum
 
 import (
-	"context"
+	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
 	"server/model"
-
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func CheckExistense(db *pgxpool.Pool, topic string) (bool, error) {
-	res, err := db.Query(context.Background(), "SELECT * FROM topics WHERE topic_name = $1", topic)
+func CheckExistense(db *sql.DB, topic string) (bool, error) {
+	res, err := db.Query("SELECT * FROM topics WHERE topic_name = $1", topic)
 	return res.Next(), err
 }
 
-func CreateTopic(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic string, descript string) {
+func CreateTopic(w http.ResponseWriter, r *http.Request, db *sql.DB, topic string, descript string) {
 	exist, err := CheckExistense(db, topic)
 	if err != nil {
 		log.Println(err)
@@ -26,7 +24,7 @@ func CreateTopic(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic
 	if exist {
 		http.Error(w, "Topic already exists!", http.StatusBadRequest)
 	} else {
-		_, err := db.Query(context.Background(),
+		_, err := db.Query(
 			"INSERT INTO topics(topic_name, post_count, descript) VALUES($1, 0, $2)",
 			topic,
 			descript,
@@ -41,7 +39,7 @@ func CreateTopic(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic
 
 }
 
-func GetTopic(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic string) {
+func GetTopic(w http.ResponseWriter, r *http.Request, db *sql.DB, topic string) {
 	exist, err := CheckExistense(db, topic)
 	if err != nil {
 		log.Println(err)
@@ -50,7 +48,7 @@ func GetTopic(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic st
 	}
 	if exist {
 		var topic model.Topic
-		err := db.QueryRow(context.Background(), "SELECT * FROM topics WHERE topic_name = $1", topic).Scan(
+		err := db.QueryRow("SELECT * FROM topics WHERE topic_name = $1", topic).Scan(
 			&topic.TopicName,
 			&topic.PostCount,
 			&topic.Descript,
@@ -76,11 +74,11 @@ func GetTopic(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool, topic st
 
 }
 
-func GetAllTopics(w http.ResponseWriter, r *http.Request, db *pgxpool.Pool) {
+func GetAllTopics(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	var topics []model.Topic
 
-	rows, err := db.Query(context.Background(), "SELECT * FROM topics")
+	rows, err := db.Query("SELECT * FROM topics")
 
 	if err != nil {
 		log.Println(err)
