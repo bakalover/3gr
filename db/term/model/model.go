@@ -67,11 +67,11 @@ type Group struct {
 }
 
 type Student struct {
-	student_id uint32
-	full_name  string
-	photo      string
-	group_id   uint32
-	usename    string
+	StudentID   uint32
+	FullName    string
+	Photo       string
+	GroupNumber int16
+	Username    string
 }
 
 type Topic struct {

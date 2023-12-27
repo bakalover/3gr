@@ -52,15 +52,14 @@ CREATE TABLE instructors(
     course_id INTEGER REFERENCES courses(course_id) ON DELETE CASCADE
 );
 CREATE TABLE groups(
-    group_id SERIAL PRIMARY KEY,
-    group_number SMALLINT NOT NULL,
+    group_number SMALLINT PRIMARY KEY,
     faculty varchar(10) NOT NULL
 );
 CREATE TABLE students(
     student_id SERIAL PRIMARY KEY,
     full_name TEXT NOT NULL,
     photo TEXT UNIQUE,
-    group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
+    group_number INTEGER REFERENCES groups(group_number) ON DELETE CASCADE,
     username varchar(20) REFERENCES users(username) ON DELETE CASCADE
 );
 CREATE TABLE topics(
@@ -119,7 +118,7 @@ CREATE OR REPLACE FUNCTION course_complete_check() RETURNS TRIGGER AS $$ BEGIN I
         SELECT 1
         FROM progress
         WHERE course_id = NEW.course_id
-            and value = 100
+            and progress_val = 100
     ) THEN RETURN NEW;
 ELSE RAISE EXCEPTION 'Feedback is not available until course is finished!';
 END IF;
