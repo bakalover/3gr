@@ -1,0 +1,805 @@
+{
+	"info": {
+		"_postman_id": "f6e0e3af-3873-45dc-ace3-fff8da9cfd7d",
+		"name": "Term",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24949737"
+	},
+	"item": [
+		{
+			"name": "Register 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qweqwe",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "Misa",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "5555555",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Bad",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "zdsxfcgbhjn",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Good Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qweqwe",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Good Login Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qweqwe",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create topic",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "topic",
+							"value": "IS it bad to use onl present simple?",
+							"type": "text"
+						},
+						{
+							"key": "descript",
+							"value": "I always watndet to ask native speakers for right time usage",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/forum/create_topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"forum",
+						"create_topic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "topic",
+							"value": "IS it bad to use onl present simple?",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "NO",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/forum/add_post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"forum",
+						"add_post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "topic",
+							"value": "IS it bad to use onl present simple?",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "Misa",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "Yeeee",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/forum/add_post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"forum",
+						"add_post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all topics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/api/forum/get_all_topics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"forum",
+						"get_all_topics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/api/forum/get_all_post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"forum",
+						"get_all_post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "group_number",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "faculty",
+							"value": "Optics",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/stud/create_group",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"create_group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adding wrong student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "full_name",
+							"value": "spy",
+							"type": "text"
+						},
+						{
+							"key": "group_number",
+							"value": "666",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "hahahha",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/stud/add_student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"add_student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adding right student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "full_name",
+							"value": "Misa Kanao",
+							"type": "text"
+						},
+						{
+							"key": "group_number",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "Misa",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/stud/add_student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"add_student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get students in group 123",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "group_number",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/stud/get_students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"get_students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa trying not to pay",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/enroll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"enroll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa eventually paying",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "3000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/pay",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa enroll",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/enroll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"enroll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa trying feedback",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "feedback_val",
+							"value": "silly lesson!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/add_feedback",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"add_feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa completing lesson",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "lesson_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/complete_lesson",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"complete_lesson"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa trying feedback again",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "feedback_val",
+							"value": "silly lesson again!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/add_feedback",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"add_feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Misa completing quiz",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "lesson_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/complete_quiz",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"complete_quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finally got feedback",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "student_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "feedback_val",
+							"value": "finally got you!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/course/add_feedback",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"add_feedback"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

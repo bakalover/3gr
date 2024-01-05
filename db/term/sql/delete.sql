@@ -2,6 +2,8 @@ DROP INDEX student_id_index;
 DROP FUNCTION complete_lesson;
 DROP TRIGGER check_payment ON enrollments;
 DROP TRIGGER course_complete_check ON feedbacks;
+DROP TABLE messages;
+DROP TABLE chats;
 DROP TABLE progress CASCADE;
 DROP TABLE feedbacks CASCADE;
 DROP TABLE enrollments CASCADE;

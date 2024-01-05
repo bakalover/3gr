@@ -100,6 +100,18 @@ CREATE TABLE progress(
     ),
     PRIMARY KEY(student_id, course_id)
 );
+CREATE TABLE chats(
+    chat_id SERIAL PRIMARY KEY,
+    first_user VARCHAR(20) REFERENCES users(username),
+    second_user VARCHAR(20) REFERENCES users(username),
+    CHECK(first_user != second_user)
+);
+CREATE TABLE messages(
+    message_id BIGSERIAL PRIMARY KEY,
+    message_date TIMESTAMP,
+    content text,
+    chat_id INTEGER REFERENCES chats(chat_id)
+);
 -- Tables
 -- Triggers
 CREATE OR REPLACE FUNCTION check_payment() RETURNS TRIGGER AS $$ BEGIN IF EXISTS (
