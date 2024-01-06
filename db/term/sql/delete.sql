@@ -1,4 +1,6 @@
-DROP INDEX student_id_index;
+DROP INDEX student_id_students_idx;
+DROP INDEX username_posts_idx;
+DROP INDEX chat_id_messages_idx;
 DROP FUNCTION complete_lesson;
 DROP TRIGGER check_payment ON enrollments;
 DROP TRIGGER course_complete_check ON feedbacks;

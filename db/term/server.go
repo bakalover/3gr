@@ -218,7 +218,7 @@ func main() {
 	<-c // Await ctrl+c ^_^
 
 	if err := server.Shutdown(ctx); err != nil {
-		log.Printf("Server shutdown: %s", err)
+		log.Printf("Server shutdown error: %s", err)
 	}
 
 	// fs := http.FileServer(http.Dir("static/"))
@@ -226,6 +226,6 @@ func main() {
 
 	ExecuteScript(db, "delete")
 	db.Close()
-	log.Println("Server gracefully closed")
+	log.Println("Server performed graceful shutdown")
 	log.Println("Goodbye!")
 }

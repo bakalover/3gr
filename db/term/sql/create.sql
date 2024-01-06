@@ -1,24 +1,25 @@
 -- Tables
 CREATE TABLE langs (
-    lang_level varchar(2) PRIMARY KEY,
+    lang_level VARCHAR(2) PRIMARY KEY,
     descript TEXT NOT NULL
 );
 CREATE TABLE lang_resources(
     resourse_id SERIAL PRIMARY KEY,
     descript TEXT NOT NULL,
     link TEXT NOT NULL,
-    lang_level varchar(2) REFERENCES langs(lang_level) ON DELETE CASCADE
+    lang_level VARCHAR(2) REFERENCES langs(lang_level) ON DELETE CASCADE
 );
 CREATE TABLE courses(
     course_id SERIAL PRIMARY KEY,
     descript TEXT,
     start_d DATE,
     end_d DATE,
-    lang_level varchar(2) REFERENCES langs(lang_level) ON DELETE CASCADE
+    lang_level VARCHAR(2) REFERENCES langs(lang_level) ON DELETE
+    SET NULL
 );
 CREATE TABLE lessons(
     lesson_id SERIAL PRIMARY KEY,
-    title varchar(30),
+    title VARCHAR(30),
     descript TEXT NOT NULL,
     content TEXT NOT NULL,
     course_id INTEGER REFERENCES courses(course_id) ON DELETE CASCADE
@@ -36,10 +37,10 @@ CREATE TABLE cards(
     ans SMALLINT CHECK(
         ans BETWEEN 1 AND 4
     ),
-    quiz_id INTEGER REFERENCES quizzes(quiz_id) ON DELETE CASCADE
+    quiz_id INTEGER REFERENCES quizzes(quiz_id) ON DELETE RESTRICT
 );
 CREATE TABLE users(
-    username varchar(20) PRIMARY KEY,
+    username VARCHAR(20) PRIMARY KEY,
     pass BYTEA NOT NULL,
     is_admin BOOLEAN NOT NULL
 );
@@ -48,19 +49,19 @@ CREATE TABLE instructors(
     full_name TEXT NOT NULL,
     bio TEXT NOT NULL,
     photo TEXT UNIQUE,
-    username varchar(20) REFERENCES users(username) ON DELETE CASCADE,
-    course_id INTEGER REFERENCES courses(course_id) ON DELETE CASCADE
+    username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE,
+    course_id INTEGER REFERENCES courses(course_id) ON DELETE SET NULL
 );
 CREATE TABLE groups(
     group_number SMALLINT PRIMARY KEY,
-    faculty varchar(10) NOT NULL
+    faculty VARCHAR(10) NOT NULL
 );
 CREATE TABLE students(
     student_id SERIAL PRIMARY KEY,
     full_name TEXT NOT NULL,
     photo TEXT UNIQUE,
-    group_number INTEGER REFERENCES groups(group_number) ON DELETE CASCADE,
-    username varchar(20) REFERENCES users(username) ON DELETE CASCADE
+    group_number INTEGER REFERENCES groups(group_number) ON DELETE SET NULL,
+    username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE
 );
 CREATE TABLE topics(
     topic_name TEXT PRIMARY KEY,
@@ -70,12 +71,12 @@ CREATE TABLE topics(
 CREATE TABLE posts(
     post_id SERIAL PRIMARY KEY,
     content text NOT NULL,
-    username varchar(20) REFERENCES users(username) ON DELETE CASCADE,
+    username VARCHAR(20) REFERENCES users(username) ON DELETE SET NULL,
     topic_name TEXT REFERENCES topics(topic_name) ON DELETE CASCADE
 );
 CREATE TABLE payments(
-    student_id INTEGER REFERENCES students(student_id) ON DELETE CASCADE,
-    course_id INTEGER REFERENCES courses(course_id) ON DELETE CASCADE,
+    student_id INTEGER REFERENCES students(student_id) ON DELETE RESTRICT,
+    course_id INTEGER REFERENCES courses(course_id) ON DELETE RESTRICT,
     amount INTEGER NOT NULL CHECK(amount >= 0),
     payment_date TIMESTAMP NOT NULL,
     PRIMARY KEY(student_id, course_id)
@@ -174,5 +175,7 @@ END;
 $$ LANGUAGE plpgsql;
 -- Just functions
 -- Index
-CREATE INDEX student_id_index ON students USING HASH (student_id);
+CREATE INDEX student_id_students_idx ON students USING HASH (student_id);
+CREATE INDEX username_posts_idx ON posts USING HASH (username);
+CREATE INDEX chat_id_messages_idx ON messages USING HASH (chat_id);
 -- Index
