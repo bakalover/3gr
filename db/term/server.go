@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"server/chat"
 	"server/course"
 	"server/forum"
 	"server/stud"
@@ -26,7 +27,7 @@ func ExecuteScript(db *sql.DB, scriptName string) {
 	if err != nil {
 		log.Println(err)
 	} else {
-		log.Printf("Successful excuted script: %s", scriptName)
+		log.Printf("Successful executed script: %s", scriptName)
 	}
 }
 func main() {
@@ -183,6 +184,37 @@ func main() {
 	})
 
 	// --------------------------------------Forum--------------------------------------------
+
+	// --------------------------------------Chats--------------------------------------------
+
+	mux.HandleFunc("/api/chat/create_chat", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			chat.CreateChat(w, r, db, r.FormValue("first_user"), r.FormValue("second_user"))
+		} else {
+			log.Println("Wrong method on create_chat")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
+	mux.HandleFunc("/api/chat/add_message", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			chat.AddMessage(w, r, db, r.FormValue("content"), r.FormValue("from_user"), r.FormValue("chat_id"))
+		} else {
+			log.Println("Wrong method on add_message")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
+	mux.HandleFunc("/api/chat/get_messages", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" {
+			chat.GetChatMessage(w, r, db, r.FormValue("chat_id"))
+		} else {
+			log.Println("Wrong method on create_chat")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
+	// --------------------------------------Chats--------------------------------------------
 
 	// --------------------------------------Course--------------------------------------------
 

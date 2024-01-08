@@ -60,7 +60,7 @@ func AddStudent(w http.ResponseWriter, r *http.Request, db *sql.DB, fullname str
 	check, err := CheckGroupExistence(db, int16(group_number_parsed))
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Println(err)
 		http.Error(w, "Error", http.StatusInternalServerError)
 		return
 	}
@@ -78,7 +78,7 @@ func AddStudent(w http.ResponseWriter, r *http.Request, db *sql.DB, fullname str
 	)
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Println(err)
 		http.Error(w, "Error", http.StatusInternalServerError)
 		return
 	}

@@ -106,15 +106,16 @@ CREATE TABLE progress(
 );
 CREATE TABLE chats(
     chat_id SERIAL PRIMARY KEY,
-    first_user VARCHAR(20) REFERENCES users(username),
-    second_user VARCHAR(20) REFERENCES users(username),
+    first_user VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE,
+    second_user VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE,
     CHECK(first_user != second_user)
 );
 CREATE TABLE messages(
     message_id BIGSERIAL PRIMARY KEY,
+    from_user VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE,
     message_date TIMESTAMP,
     content text,
-    chat_id INTEGER REFERENCES chats(chat_id)
+    chat_id INTEGER REFERENCES chats(chat_id) ON DELETE CASCADE
 );
 -- Tables
 -- Triggers

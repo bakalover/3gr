@@ -6,66 +6,66 @@ import (
 
 type Lang struct {
 	LangLevel string
-	Descript   string
+	Descript  string
 }
 
 type LangResourse struct {
 	ResourceId uint32
-	Descript    string
-	Link        string
+	Descript   string
+	Link       string
 	LangLevel  string
 }
 
 type Course struct {
 	CourseId  uint32
-	Descript   string
-	StartDate   time.Time
-	EndDate     time.Time
+	Descript  string
+	StartDate time.Time
+	EndDate   time.Time
 	LangLevel string
 }
 
 type Lesson struct {
 	LessonId uint32
-	Title     string
-	Descript  string
-	Content   string
+	Title    string
+	Descript string
+	Content  string
 	CourseId uint32
 }
 
 type Quiz struct {
-	QuizId   uint32
+	QuizId    uint32
 	Descript  string
 	Timeslice uint16
-	LessonId uint32
+	LessonId  uint32
 }
 
 type Card struct {
-	CardId  uint32
+	CardId   uint32
 	Question string
 	Answers  [4]string
-	TrueAns      uint8
-	QuizId uint32
+	TrueAns  uint8
+	QuizId   uint32
 }
 
 type User struct {
 	Username string
 	Password []byte
-	IsAdmin bool
+	IsAdmin  bool
 }
 
 type Instructor struct {
 	InstructorId uint32
 	FullName     string
-	Bio           string
-	Photo         string
-	Username      string
+	Bio          string
+	Photo        string
+	Username     string
 	CourseId     uint32
 }
 
 type Group struct {
 	GroupId     uint32
 	GroupNumber uint8
-	Faculcy      string
+	Faculcy     string
 }
 
 type Student struct {
@@ -97,8 +97,8 @@ type Payment struct {
 }
 
 type Enrollment struct {
-	StudentId   uint32
-	CourseId    uint32
+	StudentId  uint32
+	CourseId   uint32
 	EnrollDate time.Time
 }
 
@@ -112,4 +112,18 @@ type Progress struct {
 	StudentId   uint32
 	CourseId    uint32
 	ProgressVal uint8
+}
+
+type Chat struct {
+	ChatId     uint32
+	FirstUser  string
+	Seconduser string
+}
+
+type Message struct {
+	MessageId   uint64
+	From string
+	MessageDate time.Time
+	Content     string
+	ChatId      uint32
 }

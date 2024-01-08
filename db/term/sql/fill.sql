@@ -17,6 +17,8 @@ VALUES(
         'A2'
     );
 INSERT INTO users(username, pass, is_admin)
+VALUES('perry', sha256('perry')::bytea, true);
+INSERT INTO users(username, pass, is_admin)
 VALUES('I1', sha256('asldkkj123')::bytea, false);
 INSERT INTO users(username, pass, is_admin)
 VALUES('I2', sha256('12345')::bytea, false);
