@@ -800,6 +800,171 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Check payments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/api/course/get_pay",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"get_pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Enrollments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/api/course/get_enroll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"course",
+						"get_enroll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check instructors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/api/stud/get_instructors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"get_instructors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Instructor register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "shsh",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "asmdgashdhk",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New instructor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "full_name",
+							"value": "Sheva Milton",
+							"type": "text"
+						},
+						{
+							"key": "bio",
+							"value": "Just started study). Slightly shy",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "shsh",
+							"type": "text"
+						},
+						{
+							"key": "course_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9999/api/stud/add_instructor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"add_instructor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check instructors again",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9999/api/stud/get_instructors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9999",
+					"path": [
+						"api",
+						"stud",
+						"get_instructors"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

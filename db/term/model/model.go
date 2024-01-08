@@ -1,69 +1,71 @@
 package model
 
-import "github.com/jackc/pgx/v5/pgtype"
+import (
+	"time"
+)
 
 type Lang struct {
-	lang_level string
-	descript   string
+	LangLevel string
+	Descript   string
 }
 
 type LangResourse struct {
-	resourse_id uint32
-	descript    string
-	link        string
-	lang_level  string
+	ResourceId uint32
+	Descript    string
+	Link        string
+	LangLevel  string
 }
 
 type Course struct {
-	course_id  uint32
-	descript   string
-	start_d    pgtype.Date
-	end_d      pgtype.Date
-	lang_level string
+	CourseId  uint32
+	Descript   string
+	StartDate   time.Time
+	EndDate     time.Time
+	LangLevel string
 }
 
 type Lesson struct {
-	lesson_id uint32
-	title     string
-	descript  string
-	content   string
-	course_id uint32
+	LessonId uint32
+	Title     string
+	Descript  string
+	Content   string
+	CourseId uint32
 }
 
 type Quiz struct {
-	quiz_if   uint32
-	descript  string
-	timeslice uint16
-	lesson_id uint32
+	QuizId   uint32
+	Descript  string
+	Timeslice uint16
+	LessonId uint32
 }
 
 type Card struct {
-	card_id  uint32
-	question string
-	answers  [4]string
-	ans      uint8
-	quiz_id  uint32
+	CardId  uint32
+	Question string
+	Answers  [4]string
+	TrueAns      uint8
+	QuizId uint32
 }
 
 type User struct {
-	username string
-	password []byte
-	is_admin bool
+	Username string
+	Password []byte
+	IsAdmin bool
 }
 
 type Instructor struct {
-	instructor_id uint32
-	full_name     string
-	bio           string
-	photo         string
-	username      string
-	course_id     uint32
+	InstructorId uint32
+	FullName     string
+	Bio           string
+	Photo         string
+	Username      string
+	CourseId     uint32
 }
 
 type Group struct {
-	group_id     uint32
-	group_number uint8
-	faculcy      string
+	GroupId     uint32
+	GroupNumber uint8
+	Faculcy      string
 }
 
 type Student struct {
@@ -88,26 +90,26 @@ type Post struct {
 }
 
 type Payment struct {
-	student_id   uint32
-	course_id    uint32
-	amount       uint32
-	payment_date pgtype.Time
+	StudentId uint32
+	CourseId  uint32
+	Amount    uint32
+	PayDate   time.Time
 }
 
 type Enrollment struct {
-	student_id   uint32
-	course_id    uint32
-	enrollment_d pgtype.Date
+	StudentId   uint32
+	CourseId    uint32
+	EnrollDate time.Time
 }
 
 type Feedback struct {
-	student_id   uint32
-	course_id    uint32
-	feedback_val string
+	StudentId   uint32
+	CourseId    uint32
+	FeedbackVal string
 }
 
 type Progress struct {
-	student_id   uint32
-	course_id    uint32
-	progress_val uint8
+	StudentId   uint32
+	CourseId    uint32
+	ProgressVal uint8
 }

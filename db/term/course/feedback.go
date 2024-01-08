@@ -8,7 +8,7 @@ import (
 )
 
 func AddFeedback(w http.ResponseWriter, r *http.Request, db *sql.DB, student_id string, course_id string, feedback_val string) {
-	
+
 	student_id_parsed, err := strconv.Atoi(student_id)
 	if err != nil {
 		http.Error(w, "Invalid student id", http.StatusBadRequest)
@@ -21,7 +21,7 @@ func AddFeedback(w http.ResponseWriter, r *http.Request, db *sql.DB, student_id 
 		return
 	}
 
-
+	//Activate trigger
 	_, err = db.Query("INSERT INTO feedbacks(student_id, course_id, feedback_val) VALUES($1,$2,$3)",
 		student_id_parsed,
 		course_id_parsed,

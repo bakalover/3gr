@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"server/course"
@@ -26,15 +25,22 @@ func ExecuteScript(db *sql.DB, scriptName string) {
 	_, err = db.Exec(string(sqlFile))
 	if err != nil {
 		log.Println(err)
+	} else {
+		log.Printf("Successful excuted script: %s", scriptName)
 	}
 }
 func main() {
 
-	// Bind 9999 <-> 5432
-	// db, err := sql.Open("postgres://username:secret@localhost:9999/studs")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	// Bind 36999 <-> 5432
+	// db, err := sql.Open("postgres",
+	// 	fmt.Sprintf("postgres://%s:%s@localhost:36999/studs",
+	// 		os.Getenv("ITMO_PG_LOGIN"),
+	// 		os.Getenv("ITMO_PG_PASS"),
+	// 	),
+	// )
 	db, err := sql.Open("postgres", "postgres://bakalover:bakalover@localhost:5432/mytest")
 
 	if err != nil {
@@ -66,7 +72,7 @@ func main() {
 
 	// --------------------------------------Users--------------------------------------------
 
-	// --------------------------------------Students--------------------------------------------
+	// --------------------------------------Students & Staff--------------------------------------------
 
 	mux.HandleFunc("/api/stud/create_group", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
@@ -95,7 +101,30 @@ func main() {
 		}
 	})
 
-	// --------------------------------------Students--------------------------------------------
+	mux.HandleFunc("/api/stud/add_instructor", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			stud.AddInstructor(w, r, db,
+				r.FormValue("full_name"),
+				r.FormValue("bio"),
+				r.FormValue("username"),
+				r.FormValue("course_id"),
+			)
+		} else {
+			log.Println("Wrong method on add_instructor")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
+	mux.HandleFunc("/api/stud/get_instructors", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" {
+			stud.GetInstructors(w, r, db)
+		} else {
+			log.Println("Wrong method on get_instructors")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
+	// --------------------------------------Students & Staff--------------------------------------------
 
 	// --------------------------------------Forum--------------------------------------------
 
@@ -166,11 +195,29 @@ func main() {
 		}
 	})
 
+	mux.HandleFunc("/api/course/get_pay", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" {
+			course.GetPay(w, r, db)
+		} else {
+			log.Println("Wrong method on get_pay")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
 	mux.HandleFunc("/api/course/enroll", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			course.Enroll(w, r, db, r.FormValue("student_id"), r.FormValue("course_id"))
 		} else {
 			log.Println("Wrong method on add_feedback")
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+
+	mux.HandleFunc("/api/course/get_enroll", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" {
+			course.GetEnroll(w, r, db)
+		} else {
+			log.Println("Wrong method on get_enroll")
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	})

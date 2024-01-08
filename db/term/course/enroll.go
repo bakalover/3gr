@@ -2,8 +2,10 @@ package course
 
 import (
 	"database/sql"
+	"encoding/json"
 	"log"
 	"net/http"
+	"server/model"
 	"strconv"
 	"time"
 )
@@ -21,6 +23,7 @@ func Enroll(w http.ResponseWriter, r *http.Request, db *sql.DB, student_id strin
 		return
 	}
 
+	// Activate Trigger
 	_, err = db.Query("INSERT INTO enrollments(student_id, course_id, enrollment_d) VALUES($1,$2,$3) ",
 		student_id_parsed,
 		course_id_parsed,
@@ -45,4 +48,36 @@ func Enroll(w http.ResponseWriter, r *http.Request, db *sql.DB, student_id strin
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func GetEnroll(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	rows, err := db.Query("SELECT * FROM enrollments")
+
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+
+	var enrollments []model.Enrollment
+	for rows.Next() {
+		var enrollment model.Enrollment
+		err = rows.Scan(&enrollment.StudentId, &enrollment.CourseId, &enrollment.EnrollDate)
+		if err != nil {
+			log.Println(err)
+		}
+		enrollments = append(enrollments, enrollment)
+	}
+
+	dump, err := json.Marshal(enrollments)
+
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(dump)
+
 }

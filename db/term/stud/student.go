@@ -3,6 +3,7 @@ package stud
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"server/model"
@@ -69,8 +70,9 @@ func AddStudent(w http.ResponseWriter, r *http.Request, db *sql.DB, fullname str
 		return
 	}
 
-	_, err = db.Query("INSERT INTO students(full_name, photo, group_number, username) VALUES($1,'std_path', $2, $3)",
+	_, err = db.Query("INSERT INTO students(full_name, photo, group_number, username) VALUES($1,$2, $3, $4)",
 		fullname,
+		fmt.Sprintf("stdpath_%s",username),
 		group_number_parsed,
 		username,
 	)

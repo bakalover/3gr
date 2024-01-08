@@ -2,8 +2,10 @@ package course
 
 import (
 	"database/sql"
+	"encoding/json"
 	"log"
 	"net/http"
+	"server/model"
 	"strconv"
 	"time"
 )
@@ -42,4 +44,36 @@ func Pay(w http.ResponseWriter, r *http.Request, db *sql.DB, student_id string, 
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func GetPay(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	rows, err := db.Query("SELECT * FROM payments")
+
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+
+	var payments []model.Payment
+	for rows.Next() {
+		var pay model.Payment
+		err = rows.Scan(&pay.StudentId, &pay.CourseId, &pay.Amount, &pay.PayDate)
+		if err != nil {
+			log.Println(err)
+		}
+		payments = append(payments, pay)
+	}
+
+	dump, err := json.Marshal(payments)
+
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(dump)
+
 }

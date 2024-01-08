@@ -50,7 +50,8 @@ CREATE TABLE instructors(
     bio TEXT NOT NULL,
     photo TEXT UNIQUE,
     username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE,
-    course_id INTEGER REFERENCES courses(course_id) ON DELETE SET NULL
+    course_id INTEGER REFERENCES courses(course_id) ON DELETE
+    SET NULL
 );
 CREATE TABLE groups(
     group_number SMALLINT PRIMARY KEY,
@@ -60,8 +61,9 @@ CREATE TABLE students(
     student_id SERIAL PRIMARY KEY,
     full_name TEXT NOT NULL,
     photo TEXT UNIQUE,
-    group_number INTEGER REFERENCES groups(group_number) ON DELETE SET NULL,
-    username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE
+    group_number INTEGER REFERENCES groups(group_number) ON DELETE
+    SET NULL,
+        username VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE
 );
 CREATE TABLE topics(
     topic_name TEXT PRIMARY KEY,
@@ -71,8 +73,9 @@ CREATE TABLE topics(
 CREATE TABLE posts(
     post_id SERIAL PRIMARY KEY,
     content text NOT NULL,
-    username VARCHAR(20) REFERENCES users(username) ON DELETE SET NULL,
-    topic_name TEXT REFERENCES topics(topic_name) ON DELETE CASCADE
+    username VARCHAR(20) REFERENCES users(username) ON DELETE
+    SET NULL,
+        topic_name TEXT REFERENCES topics(topic_name) ON DELETE CASCADE
 );
 CREATE TABLE payments(
     student_id INTEGER REFERENCES students(student_id) ON DELETE RESTRICT,
