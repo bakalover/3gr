@@ -1,0 +1,45 @@
+@startuml hello
+
+class UserDao{
+    id 
+    username
+    passwd
+}
+
+class FriendLinkDao{
+    idL
+    idR
+}
+
+class AlbumDao {
+id
+name
+description
+restrictMode
+images
+}
+
+
+class ImageDao {
+id
+name
+data
+album
+tags
+comments
+}
+
+enum UserRestriction{}
+
+class CommentDao{
+    id
+    user
+    image
+    text
+}
+
+ImageDao o-- CommentDao
+AlbumDao o-- ImageDao
+AlbumDao *-- UserRestriction
+
+@enduml
