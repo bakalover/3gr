@@ -8,12 +8,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class ImageDao {
     @Id
     @GeneratedValue
@@ -22,14 +31,17 @@ public class ImageDao {
     @NonNull
     private String name;
 
-    // @NonNull
-    // private byte[] data;
+    @NonNull
+    @JsonIgnore
+    private byte[] data;
 
     @ManyToOne
-    @JoinColumn(name = "album_id")
+    @JoinColumn(name = "album_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties("images")
     private AlbumDao album;
 
-    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
-    private List<CommentDao> comments;
+    @OneToMany(mappedBy = "image", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CommentDao> comments = new ArrayList<>();
 
 }

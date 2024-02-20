@@ -5,14 +5,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
 @Data
-public class AlbumDao{
+@NoArgsConstructor
+public class AlbumDao {
     @Id
     @GeneratedValue
     private Long id;
@@ -24,8 +30,9 @@ public class AlbumDao{
     private String description;
 
     @NonNull
-    private UserRestriction restrictMode; 
+    private UserRestriction restrictMode;
 
-    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
-    private List<ImageDao> images;
+    @OneToMany(mappedBy = "album", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnoreProperties("album")
+    private List<ImageDao> images = new ArrayList<>();
 }

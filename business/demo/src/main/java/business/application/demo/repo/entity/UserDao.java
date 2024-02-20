@@ -1,22 +1,22 @@
 package business.application.demo.repo.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDao {
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    @NonNull
+    @Id
     private String username;
 
     @NonNull
-    private byte[] passwd;
+    private String hashedPasswd;
 
 }
