@@ -31,9 +31,10 @@ public class ImageController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addImage(@RequestParam("path") MultipartFile file,
-            @RequestParam("albumId") Long albumId) {
+            @RequestParam("albumId") Long albumId,
+            @RequestParam("face") Boolean face) {
         try {
-            imageService.addNewImage(file, albumId);
+            imageService.addNewImage(file, albumId, face);
             return ResponseEntity.ok().body("OK");
         } catch (IOException e) {
             return ResponseEntity.badRequest().body("Cannot read file!");

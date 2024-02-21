@@ -32,6 +32,9 @@ public class ImageDao {
     private String name;
 
     @NonNull
+    private Boolean face;
+
+    @NonNull
     @JsonIgnore
     private byte[] data;
 

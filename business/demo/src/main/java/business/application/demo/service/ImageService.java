@@ -31,11 +31,21 @@ public class ImageService {
     @Autowired
     private UserRepository userRepositoty;
 
-    public void addNewImage(MultipartFile file, Long albumId) throws IOException, NoSuchElementException {
+    // ~todo transaction
+    public void addNewImage(MultipartFile file, Long albumId, Boolean face) throws IOException, NoSuchElementException {
         var imageDao = new ImageDao();
-        imageDao.setAlbum(albumRepository.findById(albumId).orElseThrow());
+        var album = albumRepository.findById(albumId).orElseThrow();
+        imageDao.setAlbum(album);
         imageDao.setName(file.getOriginalFilename());
         imageDao.setData(file.getBytes());
+        imageDao.setFace(face);
+        var images = imageRepository.findByAlbum(album);
+        images.forEach(image -> {
+            if (image.getFace()) {
+                image.setFace(false);
+                imageRepository.save(image);
+            }
+        });
         imageRepository.save(imageDao);
     }
 
@@ -47,11 +57,11 @@ public class ImageService {
         return imageRepository.findByAlbum(albumDao);
     }
 
-    public void deleteById(Long id) throws Exception{
+    public void deleteById(Long id) throws Exception {
         imageRepository.deleteById(id);
     }
 
-    public void addComment(CommentBody comment) throws NoSuchElementException{
+    public void addComment(CommentBody comment) throws NoSuchElementException {
         var dao = new CommentDao();
         dao.setImage(imageRepository.findById(comment.getPicId()).orElseThrow());
         dao.setText(comment.getText());

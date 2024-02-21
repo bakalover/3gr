@@ -40,6 +40,13 @@ public class AlbumService {
         AlbumDao from = albumRepository.findById(fromId).orElseThrow();
         AlbumDao to = albumRepository.findById(toId).orElseThrow();
         List<ImageDao> toMove = imageRepository.findByAlbum(from);
+        List<ImageDao> alreadyHave = imageRepository.findByAlbum(from);
+        alreadyHave.forEach(image -> {
+            if (image.getFace()) {
+                image.setFace(false);
+                imageRepository.save(image);
+            }
+        });
         toMove.forEach(image -> image.setAlbum(to));
         List<ImageDao> toMoveFiltered = new ArrayList<>();
         for (ImageDao imageDao : toMove) {
