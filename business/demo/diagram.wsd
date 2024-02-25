@@ -1,45 +1,233 @@
 @startuml hello
 
-class UserDao{
-    id 
-    username
-    passwd
+
+package controller{
+    class AlbumController{
+        -AlbumService albumService
+        -ImageService imageService
+        +ResponseEntity<String> addAlbum(AlbumBody album)
+        +ResponseEntity<AlbumDao> getAlbum(Long id)
+        +ResponseEntity<String> deleteAlbum(Long id)
+        +ResponseEntity<String> movePics(Long from, Long to, ArrayList<Long> ids)
+    }
+
+    class ImageController{
+        -ImageService imageService
+        +ResponseEntity<String> addImage(MultipartFile file, Long albumId, Boolean face)
+        +ResponseEntity<String> postMethodName(CommentBody comment)
+        +ResponseEntity<String> deleteImage(Long id)
+        +ResponseEntity<ImageDao> getImage(Long id)
+        +ResponseEntity<List<CommentDao>> getImageComments(Long id)
+    }
+
+    class UserController{
+        -UserService userService
+        +ResponseEntity<String> register(UserBody user)
+    }
+
 }
 
-class FriendLinkDao{
-    idL
-    idR
+package service{
+    class AlbumService{
+    -AlbumRepository albumRepository
+    -ImageRepository imageRepository
+    +void addNewAlbum(AlbumBody album)
+    +void deleteAlbumById(Long id) throws Exception
+    +void moveImages(Long fromId, Long toId, List<Long> ids) throws NoSuchElementException
+    +AlbumDao getAlbum(Long id) throws NoSuchElementException
+    }
+
+    class ImageService{
+        -AlbumRepository albumRepository
+        -ImageRepository imageRepository
+        -CommentRepositoty commentRepositoty
+        -UserRepository userRepositoty
+        +void addNewImage(MultipartFile file, Long albumId, Boolean face) throws IOException, NoSuchElementException
+        +ImageDao findById(Long id) throws NoSuchElementException
+        +List<ImageDao> findByAlbum(AlbumDao albumDao)
+        +void deleteById(Long id) throws Exception
+        +void addComment(CommentBody comment) throws NoSuchElementException
+        +List<CommentDao> getComments(Long picId)
+    }
+    
+    class UserService{
+        -UserRepository userRepositoty
+        +PasswordEncoder encoder()
+        +void registerUser(UserBody user) throws Exception
+    }
+
 }
 
-class AlbumDao {
-id
-name
-description
-restrictMode
-images
+package security{
+    enum Roles{
+        +USER
+        +MODERATOR
+    }
+    class NoSecurity{
+        +WebSecurityCustomizer webSecurityCustomizer()
+    }
+}
+
+package repo{
+
+    interface AlbumRepository{}
+    interface CommentRepositoty{
+        +List<CommentDao> findByImage(ImageDao image)
+    }
+    interface ImageRepositoty{
+        +List<ImageDao> findByAlbum(AlbumDao album)
+    }
+    interface UserRepository{}
+    interface JpaRepository{}
+
+    package entity{
+        enum UserRestriction{
+            ALL
+            REGISTRED
+            FRIENDS
+            BEST_FRIENDS
+            ME
+        }
+
+        class UserDao{
+            -String username 
+            -String hashedPasswd
+            +String getUsername()
+            +String getHashedPasswd()
+            +void setUsername(String username)
+            +void setHashedPasswd(String hashedPasswd)
+        }
+
+        class AlbumDao {
+            -Long id
+            -String name
+            -String description
+            -UserRestriction restrictMode
+            -List<ImageDao> images
+            +Long getId()
+            +String getName()
+            +UserRestriction getRestrictMode()
+            +List<ImageDao> getImages()
+            +void setId(Long id)
+            +void setName(string name)
+            +void setRestrictMode(UserRestriction restrictMode)
+            +void setImages(List<ImageDao> images)
+        }
+
+
+        class CommentDao{
+            -Long id
+            -String text
+            -UserDao user
+            -ImageDao image
+            +Long getId()
+            +String getText()
+            +UserDao getUser()
+            +ImageDao getImage()
+            +void setId(Long id)
+            +void setText(String text)
+            +void setUser(UserDao user)
+            +void setImage(ImageDao image)
+        }
+
+        class ImageDao{
+            -Long id
+            -String name
+            -Boolean face
+            -byte[] data
+            -AlbumDao album
+            -List<CommentDao> comments
+
+            +Long getId()
+            +String getName()
+            +Boolean getFace()
+            +byte[] getData()
+            +AlbumDao getAlbum()
+            +List<CommentDao> getComments()
+
+            +void setId(Long id)
+            +void setName(string name)
+            +void setFace(Boolean face)
+            +void setData(byte[] data)
+            +void setAlbum(AlbumDao album)
+            +void setImages(List<ImageDao> images)
+
+        }
+    }
+
+    package request{
+        class AlbumBody{
+            -String name
+            -String description
+            -UserRestriction restrictMode
+            +String getName()
+            +String getDescription()
+            +UserRestriction getRestrictMode()
+            -void setName(String name)
+            -void setDescription(String description)
+            -void setRestrictMode(UserRestriction restrictMode)
+        }
+
+        class CommentBody{
+            -Long picId
+            -String text
+            -String user
+            +Long getPicId()
+            +String getText()
+            +String getUsername()
+            +void setPicId(Long picId)
+            +void setText(String text)
+            +void setUsername(String user)
+        }
+        class ImageBody{
+            -String name
+            -Long albumId
+
+            +String getName()
+            +Long getAlbumId()
+
+            +void setAlbumId(Long Albumid)
+            +void setName(string name)
+        }
+        
+        class UserBody{
+            -String username 
+            -String passwdString
+            +String getUsername()
+            +String getPasswdString()
+            +void setUsername(String username)
+            +void setPasswdString(String passwdString)
+        }
+
+    }
 }
 
 
-class ImageDao {
-id
-name
-data
-album
-tags
-comments
-}
+AlbumController--AlbumService
+AlbumController--ImageService
+ImageController--ImageService
+UserController--UserService
+JpaRepository <|-- AlbumRepository
+JpaRepository <|-- CommentRepository
+JpaRepository <|-- ImageRepository
+JpaRepository <|-- UserRepository
+UserService--UserRepository
+ImageService--AlbumRepository
+ImageService--ImageRepository
+ImageService--CommentRepository
+ImageRepository--UserRepository
+AlbumService--AlbumRepository
+AlbumService--ImageRepository
+ImageDao--AlbumDao
+UserRestriction--AlbumDao
+CommentDao--ImageDao
+CommentDao--UserDao
+AlbumBody--UserRestriction
 
-enum UserRestriction{}
 
-class CommentDao{
-    id
-    user
-    image
-    text
-}
-
-ImageDao o-- CommentDao
-AlbumDao o-- ImageDao
-AlbumDao *-- UserRestriction
+' class FriendLinkDao{
+'     idL
+'     idR
+' }
 
 @enduml

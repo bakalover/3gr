@@ -60,7 +60,7 @@ public class AlbumConstroller {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AlbumDao> getMethodName(@PathVariable Long id) {
+    public ResponseEntity<AlbumDao> getAlbum(@PathVariable Long id) {
         AlbumDao album;
         try {
             album = albumService.getAlbum(id);

@@ -1,5 +1,7 @@
 package business.application.demo.security;
 
 public enum Roles {
-    // Future security
+    // Future Security
+    USER,
+    MODERATOR
 }
