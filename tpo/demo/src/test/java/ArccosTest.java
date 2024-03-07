@@ -1,5 +1,3 @@
-package arccos;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,13 +19,13 @@ public class ArccosTest {
     }
 
     @ParameterizedTest(name = "JustWork")
-    @CsvFileSource(resources = "/arccos/arccosData.csv")
+    @CsvFileSource(resources = "arccosData.csv")
     public void justWorkTest(Double input, Double expected) {
         assertEquals(expected, eval.calculate(input), eval.error());
     }
 
     @ParameterizedTest(name = "OutOfRange")
-    @CsvFileSource(resources = "/arccos/arccosFaultyData.csv")
+    @CsvFileSource(resources = "arccosFaultyData.csv")
     public void outOfRangeTest(Double input) {
         assertThrows(IllegalArgumentException.class, () -> eval.calculate(input));
     }
