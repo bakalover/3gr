@@ -31,10 +31,15 @@ public class MergeTest {
 
         Integer[] input3 = {};
         Integer[] expected3 = {};
+
+        Integer[] input4 = null;
+        Integer[] expected4 = null;
+
         return Stream.of(
                 Arguments.of(input1, expected1),
                 Arguments.of(input2, expected2),
-                Arguments.of(input3, expected3));
+                Arguments.of(input3, expected3),
+                Arguments.of(input4, expected4));
     }
 
     @ParameterizedTest(name = "JustWork")
