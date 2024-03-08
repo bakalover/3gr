@@ -18,7 +18,7 @@ public class MergeSort<T extends Comparable<T>> {
         }
     }
 
-    private void merge(T[] array, int left, int mid, int right) {
+    public void merge(T[] array, int left, int mid, int right) {
         int n1 = mid - left + 1;
         int n2 = right - mid;
 
