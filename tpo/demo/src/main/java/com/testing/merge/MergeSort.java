@@ -22,7 +22,10 @@ public class MergeSort<T extends Comparable<T>> {
         int n1 = mid - left + 1;
         int n2 = right - mid;
 
+        @SuppressWarnings("unchecked")
         T[] leftArray = (T[]) new Comparable[n1];
+
+        @SuppressWarnings("unchecked")
         T[] rightArray = (T[]) new Comparable[n2];
 
         System.arraycopy(array, left, leftArray, 0, n1);

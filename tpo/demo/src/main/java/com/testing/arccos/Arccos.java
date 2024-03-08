@@ -17,8 +17,10 @@ public class Arccos {
         }
     };
 
+    // Manual calculation
+    // (math => error -> inf, if coefs.count() > 6 => error() < 0.25)
     public Double error() {
-        return 1.0;
+        return 0.25;
     }
 
     public Double calculate(Double x) throws IllegalArgumentException {
