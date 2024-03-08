@@ -21,14 +21,14 @@ public class MergeTest {
 
     private static Stream<Arguments> pseudoStressProvider() {
 
-        final int len = 1000;
+        final int testCount = 1000;
 
         return Stream.generate(() -> {
-            Integer[] input = Stream.generate(() -> new Random().nextInt()).limit(len).toArray(Integer[]::new);
+            Integer[] input = Stream.generate(() -> new Random().nextInt()).limit(testCount).toArray(Integer[]::new);
             Integer[] expected = Arrays.copyOf(input, input.length);
             Arrays.sort(expected);
             return Arguments.of(input, expected);
-        }).limit(len);
+        }).limit(testCount);
     }
 
     private static Stream<Arguments> mergeProvider() {
