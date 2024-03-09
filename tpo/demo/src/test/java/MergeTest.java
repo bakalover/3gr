@@ -21,7 +21,7 @@ public class MergeTest {
 
     private static Stream<Arguments> pseudoStressProvider() {
 
-        final int testCount = 1000;
+        final int testCount = 1500;
 
         return Stream.generate(() -> {
             Integer[] input = Stream.generate(() -> new Random().nextInt()).limit(testCount).toArray(Integer[]::new);

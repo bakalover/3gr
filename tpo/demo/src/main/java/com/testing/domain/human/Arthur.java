@@ -1,5 +1,6 @@
 package com.testing.domain.human;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +35,15 @@ public class Arthur implements IHuman, IThing {
     @Override
     public Set<Action> doActions() {
         return new HashSet<>() {
+            {
+                add(Action.STAND_UP);
+                add(Action.TOUCH_SELF);
+            }
+        };
+    }
+
+    public ArrayList<Action> getActions() {
+        return new ArrayList<>() {
             {
                 add(Action.STAND_UP);
                 add(Action.TOUCH_SELF);

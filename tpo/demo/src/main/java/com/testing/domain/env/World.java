@@ -15,7 +15,6 @@ public class World implements IWorld {
     private Integer shadowCount;
     private AtomicInteger shadowMovements;
     private ArrayList<Thread> shadows;
-    private Integer smellCount = 0;
 
     private HashSet<Possibility> posb;
 
@@ -47,23 +46,14 @@ public class World implements IWorld {
             launchShadows();
         }
         if (posb.contains(Possibility.AUTH_SMELLS)) {
-            this.smellCount++;
-            if (smellCount % 2 == 0) {
-                return new HashSet<>() {
-                    {
-                        add(Keys.SOUR);
-                        add(Keys.SWEET);
-                        add(Keys.STINK);
-                    }
-                };
-            } else {
-                return new HashSet<>() {
-                    {
-                        add(Keys.SWEET);
-                        add(Keys.STINK);
-                    }
-                };
-            }
+
+            return new HashSet<>() {
+                {
+                    add(Keys.SWEET);
+                    add(Keys.STINK);
+                }
+            };
+
         }
         return null;
     }
