@@ -49,9 +49,9 @@ public class MergeTest {
         Integer[] expected4 = { 1, 2, 3, 4, 5, 6 };
         int l4 = 0, mid4 = 3, r4 = 5;
 
-        Integer[] input5 = { 2, 4, 6, 1, 3, 5 };
+        Integer[] input5 = { 2, 4, 1, 3, 5, 6 };
         Integer[] expected5 = { 1, 2, 3, 4, 5, 6 };
-        int l5 = 0, mid5 = 2, r5 = 5;
+        int l5 = 0, mid5 = 1, r5 = 5;
 
         Integer[] input6 = { 1, 0 };
         Integer[] expected6 = { 0, 1 };

@@ -6,5 +6,5 @@ import com.testing.domain.action.Action;
 import com.testing.domain.env.Possibility;
 
 public interface IThing {
-    public Set<Possibility> apply(Action a);
+    Set<Possibility> apply(Action a);
 }
