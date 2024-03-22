@@ -4,14 +4,19 @@ AS $$
 DECLARE
     schema TEXT := 's335162';
     fill_char TEXT := ' ';
+    no_pad INT := 3;
+    name_pad INT := 21;
+    line_pad INT := 14;
+    text_pad INT := 44;
+
     rec RECORD;
 BEGIN
 
     RAISE INFO '
    Текст запроса: %
 
-   No. Имя объекта           # строки       Текст
-   --- -------------------   -------------  --------------------------------------------', 
+                            No. Имя объекта           # строки       Текст
+                            --- -------------------   -------------  --------------------------------------------', 
   keyword;
 
     FOR rec IN
@@ -27,10 +32,10 @@ BEGIN
         WHERE position(lower(keyword) in lower(source_code)) > 0
     LOOP
         RAISE INFO ' % % % %', 
-      RPAD(rec.object_num::TEXT,3,fill_char),
-      RPAD(rec.object_name::TEXT,21,fill_char),
-      RPAD(rec.line_num::TEXT,14,fill_char),
-      RPAD(TRIM(rec.source_code::TEXT), 44,fill_char);
+      RPAD(rec.object_num::TEXT,no_pad,fill_char),
+      RPAD(rec.object_name::TEXT,name_pad,fill_char),
+      RPAD(rec.line_num::TEXT,line_pad,fill_char),
+      RPAD(TRIM(rec.source_code::TEXT), text_pad,fill_char);
     END LOOP;
 END;
 $$;
