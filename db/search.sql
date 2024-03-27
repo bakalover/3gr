@@ -1,8 +1,7 @@
-CREATE OR REPLACE PROCEDURE find_source(keyword TEXT)
+CREATE OR REPLACE PROCEDURE find_source(keyword TEXT, schem TEXT)
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    schema TEXT := 's335162';
     fill_char TEXT := ' ';
     no_pad INT := 3;
     name_pad INT := 21;
@@ -27,9 +26,10 @@ BEGIN
                    unnest(string_to_array(pg_proc.prosrc, E'\n')) AS source_code
             FROM pg_proc
             JOIN pg_namespace ON pg_proc.pronamespace = pg_namespace.oid
-            WHERE pg_namespace.nspname = schema
+            WHERE pg_namespace.nspname = schem
         ) object_lines
         WHERE position(lower(keyword) in lower(source_code)) > 0
+        ORDER BY line_num
     LOOP
         RAISE INFO ' % % % %', 
       RPAD(rec.object_num::TEXT,no_pad,fill_char),
@@ -40,5 +40,5 @@ BEGIN
 END;
 $$;
 
-call find_source('student');
-drop procedure find_source;
+call find_source('student', 's335162');
+-- drop procedure find_source;
